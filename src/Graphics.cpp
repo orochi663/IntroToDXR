@@ -26,7 +26,7 @@
  */
 
 #include <wrl.h>
-#include <atlcomcli.h>
+//#include <atlcomcli.h> -> No need
 
 #include "Graphics.h"
 #include "Utils.h"
@@ -397,7 +397,7 @@ void Compile_Shader(D3D12ShaderCompilerInfo &compilerInfo, D3D12ShaderInfo &info
 	Utils::Validate(hr, L"Error: failed to create blob from shader file!");
 
 	// Create the compiler include handler
-	CComPtr<IDxcIncludeHandler> dxcIncludeHandler;
+	ComPtr<IDxcIncludeHandler> dxcIncludeHandler;
 	hr = compilerInfo.library->CreateIncludeHandler(&dxcIncludeHandler);
 	Utils::Validate(hr, L"Error: failed to create include handler");
 
@@ -412,7 +412,7 @@ void Compile_Shader(D3D12ShaderCompilerInfo &compilerInfo, D3D12ShaderInfo &info
 		info.argCount, 
 		info.defines, 
 		info.defineCount, 
-		dxcIncludeHandler, 
+		dxcIncludeHandler.Get(), 
 		&result);
 
 	Utils::Validate(hr, L"Error: failed to compile shader!");
